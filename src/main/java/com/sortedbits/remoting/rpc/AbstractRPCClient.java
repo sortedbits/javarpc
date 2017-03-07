@@ -1,6 +1,6 @@
 package com.sortedbits.remoting.rpc;
 
-import com.sortedbits.remoting.AbstractClient;
+import com.sortedbits.remoting.AbstractSocketClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,15 +8,15 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public abstract class RpcAbstractClient extends AbstractClient<RpcResponse, RpcRequest> {
+public abstract class AbstractRPCClient extends AbstractSocketClient<RPCResponse, RPCRequest> {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public RpcAbstractClient() {
+    public AbstractRPCClient() {
         super();
     }
 
-    public RpcAbstractClient(String configName) {
+    public AbstractRPCClient(String configName) {
         super(configName);
     }
 
@@ -35,8 +35,8 @@ public abstract class RpcAbstractClient extends AbstractClient<RpcResponse, RpcR
         }
 
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            RpcRequest req = new RpcRequest(service, method.getName(), method.getParameterTypes(), args);
-            RpcResponse res = submit(req);
+            RPCRequest req = new RPCRequest(service, method.getName(), method.getParameterTypes(), args);
+            RPCResponse res = submit(req);
             if (res.isError()) {
                 throw res.getError();
             }

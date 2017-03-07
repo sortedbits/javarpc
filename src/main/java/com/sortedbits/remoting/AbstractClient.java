@@ -1,9 +1,6 @@
 package com.sortedbits.remoting;
 
 import java.io.IOException;
-import java.net.Socket;
-
-import static org.apache.commons.io.IOUtils.closeQuietly;
 
 public abstract class AbstractClient<I, O> {
 
@@ -18,26 +15,19 @@ public abstract class AbstractClient<I, O> {
         this.config = ClientConfig.load(configName);
     }
 
-    protected abstract Channel<I, O> createChannel(Socket socket) throws IOException;
-
     public synchronized I submit(O req) throws IOException {
         try {
-            channel = getChannel();
+            Channel<I, O> channel = getChannel(config);
             channel.write(req);
             return channel.read();
         } catch (IOException e) {
-            closeQuietly(channel);
-            channel = null;
+            closeChannel();
             throw e;
         }
     }
 
-    private Channel<I, O> getChannel() throws IOException {
-        if (channel == null) {
-            Socket socket = new Socket(config.getServerAddr(), config.getPort());
-            socket.setSoTimeout(config.getSocketTimeout());
-            channel = createChannel(socket);
-        }
-        return channel;
-    }
+    protected abstract Channel<I, O> getChannel(ClientConfig config) throws IOException;
+
+    protected abstract  void closeChannel();
+
 }

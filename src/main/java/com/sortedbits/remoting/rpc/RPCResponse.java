@@ -2,11 +2,11 @@ package com.sortedbits.remoting.rpc;
 
 import java.io.Serializable;
 
-public class RpcResponse implements Serializable {
+public class RPCResponse implements Serializable {
 
     private Object result;
 
-    public RpcResponse(Object result) {
+    public RPCResponse(Object result) {
         this.result = result;
     }
 

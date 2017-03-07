@@ -11,12 +11,14 @@ public class ServerConfig {
     public static final String LISTEN_PORT = "listen.port";
     public static final String SOCKET_TIMEOUT = "socket.timeout";
     public static final String THREAD_POOL_SIZE = "threadPool.size";
+    private static final String SOCKET_SSL = "socket.ssl";
     public static final int DEFAULT_SOCKET_TIMEOUT = 0;
 
     private int listenPort;
     private InetAddress listenAddr;
     private int threadPoolSize;
     private int socketTimeout;
+    private boolean socketSSL;
 
     private ServerConfig() {
     }
@@ -33,8 +35,12 @@ public class ServerConfig {
         return threadPoolSize;
     }
 
-    public int getSocketTimout() {
+    public int getSocketTimeout() {
         return socketTimeout;
+    }
+
+    public boolean getSocketSSL() {
+        return socketSSL;
     }
 
     public static ServerConfig load() {
@@ -50,7 +56,8 @@ public class ServerConfig {
             serverConfig.listenPort = config.getInt(LISTEN_PORT);
             serverConfig.threadPoolSize = config.getInt(THREAD_POOL_SIZE);
             serverConfig.socketTimeout = config.hasPath(SOCKET_TIMEOUT) ? config.getInt(SOCKET_TIMEOUT) : DEFAULT_SOCKET_TIMEOUT;
-
+            serverConfig.socketSSL = config.getBoolean(SOCKET_SSL);
+            
             return serverConfig;
         } catch (Exception e) {
             throw new RuntimeException("Error loading server config: ", e);

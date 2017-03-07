@@ -3,7 +3,7 @@ package com.sortedbits.remoting.rpc;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-public class RpcRequest implements Serializable {
+public class RPCRequest implements Serializable {
 
     protected Class<?> service;
     protected String methodName;
@@ -12,7 +12,7 @@ public class RpcRequest implements Serializable {
     protected Class<?>[] paramTypes;
     protected Object[] args;
 
-    public RpcRequest(Class<?> service, String methodName, Class<?>[] paramTypes, Object[] args) {
+    public RPCRequest(Class<?> service, String methodName, Class<?>[] paramTypes, Object[] args) {
         this.service = service;
         this.methodName = methodName;
         this.paramTypes = paramTypes;

@@ -10,10 +10,13 @@ public class ClientConfig {
     public static final String SERVER_ADDR = "server.addr";
     public static final String SERVER_PORT = "server.port";
     public static final String SOCKET_TIMEOUT = "socket.timeout";
+    public static final String SOCKET_SSL = "socket.ssl";
+    public static final int DEFAULT_SOCKET_TIMEOUT = 0;
 
     private InetAddress serverAddr;
     private int serverPort;
     private int socketTimeout;
+    private boolean socketSSL;
 
     private ClientConfig() {
     }
@@ -24,6 +27,14 @@ public class ClientConfig {
 
     public  InetAddress getServerAddr() {
         return serverAddr;
+    }
+
+    public int getSocketTimeout() {
+        return socketTimeout;
+    }
+
+    public boolean getSocketSSL() {
+        return socketSSL;
     }
 
     public static ClientConfig load() {
@@ -37,14 +48,12 @@ public class ClientConfig {
             ClientConfig clientConfig = new ClientConfig();
             clientConfig.serverAddr = InetAddress.getByName(config.getString(SERVER_ADDR));
             clientConfig.serverPort = config.getInt(SERVER_PORT);
-            clientConfig.socketTimeout = config.hasPath(SOCKET_TIMEOUT) ? config.getInt(SOCKET_TIMEOUT) : 0;
+            clientConfig.socketTimeout = config.hasPath(SOCKET_TIMEOUT) ? config.getInt(SOCKET_TIMEOUT) : DEFAULT_SOCKET_TIMEOUT;
+            clientConfig.socketSSL = config.getBoolean(SOCKET_SSL);
             return clientConfig;
         } catch (Exception e) {
             throw new RuntimeException("Error loading client config: ", e);
         }
     }
 
-    public int getSocketTimeout() {
-        return socketTimeout;
-    }
 }

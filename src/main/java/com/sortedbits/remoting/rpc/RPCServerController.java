@@ -10,14 +10,14 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RpcServerController implements ServerController<RpcRequest, RpcResponse> {
+public class RPCServerController implements ServerController<RPCRequest, RPCResponse> {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private Map<Class<?>, Object> registry = new HashMap<>();
 
     @Override
-    public RpcResponse handle(RpcRequest req){
+    public RPCResponse handle(RPCRequest req){
         try {
             Class<?> service = req.getService();
             String methodName = req.getMethodName();
@@ -26,13 +26,13 @@ public class RpcServerController implements ServerController<RpcRequest, RpcResp
             Object serviceImpl = registry.get(service);
             Method method = service.getMethod(methodName, paramTypes);
             Object result = method.invoke(serviceImpl, args);
-            return new RpcResponse(result);
+            return new RPCResponse(result);
         } catch (InvocationTargetException e) {
             logger.error("Error processing request: ", e.getTargetException());
-            return new RpcResponse(e.getTargetException());
+            return new RPCResponse(e.getTargetException());
         } catch (Exception e) {
             logger.error("Error processing request: ", e);
-            return new RpcResponse(e);
+            return new RPCResponse(e);
         }
     }
 

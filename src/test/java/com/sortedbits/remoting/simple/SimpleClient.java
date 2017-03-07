@@ -1,17 +1,14 @@
 package com.sortedbits.remoting.simple;
 
-import com.sortedbits.remoting.Channel;
-import com.sortedbits.remoting.AbstractClient;
-import com.sortedbits.remoting.SocketChannel;
-import com.sortedbits.remoting.SocketSerializationChannel;
+import com.sortedbits.remoting.*;
 
 import java.io.IOException;
 import java.net.Socket;
 
-public class SimpleClient extends AbstractClient<SimpleResponse, SimpleRequest> {
+public class SimpleClient extends AbstractSocketClient<SimpleResponse, SimpleRequest> {
 
     @Override
-    protected Channel<SimpleResponse, SimpleRequest> createChannel(Socket socket) throws IOException {
+    protected Channel<SimpleResponse, SimpleRequest> createSocketChannel(Socket socket) throws IOException {
         return new SocketSerializationChannel<>(socket);
     }
 }
