@@ -7,44 +7,47 @@ import java.net.InetAddress;
 
 public class ServerConfig {
 
+    public static final String LISTEN_ADDR = "listen.addr";
+    public static final String LISTEN_PORT = "listen.port";
+    public static final String SOCKET_TIMEOUT = "socket.timeout";
+    public static final String THREAD_POOL_SIZE = "threadPool.size";
+    public static final int DEFAULT_SOCKET_TIMEOUT = 0;
+
     private int listenPort;
     private InetAddress listenAddr;
     private int threadPoolSize;
     private int socketTimeout;
 
-    ServerConfig(InetAddress listenAddr, int listenPort, int threadPoolSize, int socketTimeout) {
-        this.listenAddr = listenAddr;
-        this.listenPort = listenPort;
-        this.threadPoolSize = threadPoolSize;
-        this.socketTimeout = socketTimeout;
+    private ServerConfig() {
     }
 
-    int getListenPort() {
+    public int getListenPort() {
         return listenPort;
     }
 
-    InetAddress getListenAddr() {
+    public InetAddress getListenAddr() {
         return listenAddr;
     }
 
-    int getThreadPoolSize() {
+    public int getThreadPoolSize() {
         return threadPoolSize;
     }
 
-    int getSocketTimout() {
+    public int getSocketTimout() {
         return socketTimeout;
     }
 
-    static ServerConfig load(String configName) throws Exception {
+    public static ServerConfig load(String configName) throws Exception {
         try {
             Config config = ConfigFactory.load(configName);
 
-            InetAddress listenAddr = InetAddress.getByName(config.getString("listen.addr"));
-            int listenPort = config.getInt("listen.port");
-            int threadPoolSize = config.getInt("threadPool.size");
-            int socketTimeout = config.hasPath("socket.timeout") ? config.getInt("socket.timeout") : 0;
+            ServerConfig serverConfig = new ServerConfig();
+            serverConfig.listenAddr = InetAddress.getByName(config.getString(LISTEN_ADDR));
+            serverConfig.listenPort = config.getInt(LISTEN_PORT);
+            serverConfig.threadPoolSize = config.getInt(THREAD_POOL_SIZE);
+            serverConfig.socketTimeout = config.hasPath(SOCKET_TIMEOUT) ? config.getInt(SOCKET_TIMEOUT) : DEFAULT_SOCKET_TIMEOUT;
 
-            return new ServerConfig(listenAddr, listenPort, threadPoolSize, socketTimeout);
+            return serverConfig;
         } catch (Exception e) {
             throw new RuntimeException("Error loading server config: ", e);
         }
