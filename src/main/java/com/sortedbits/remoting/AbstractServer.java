@@ -41,7 +41,7 @@ public abstract class AbstractServer<I, O, C extends ServerController<I, O>> imp
                 Channel<I, O>  channel = createChannel(socket);
                 executor.submit(() -> process(channel));
             } catch (IOException e) {
-                logger.error("AbstractServer error: ", e);
+                logger.error("Server error: ", e);
             }
         }
     }
