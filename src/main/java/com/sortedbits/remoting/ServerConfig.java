@@ -37,7 +37,11 @@ public class ServerConfig {
         return socketTimeout;
     }
 
-    public static ServerConfig load(String configName) throws Exception {
+    public static ServerConfig load() {
+        return load("server.conf");
+    }
+
+    public static ServerConfig load(String configName) {
         try {
             Config config = ConfigFactory.load(configName);
 

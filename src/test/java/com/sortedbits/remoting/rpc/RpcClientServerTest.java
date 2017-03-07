@@ -10,8 +10,9 @@ import static org.junit.Assert.assertEquals;
 public class RpcClientServerTest {
 
     @BeforeClass
-    public static void setup() {
+    public static void setup() throws Exception {
         RpcServer.main(new String[] {});
+        Thread.sleep(1000);
     }
 
     @Test

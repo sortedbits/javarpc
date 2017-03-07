@@ -26,7 +26,11 @@ public class ClientConfig {
         return serverAddr;
     }
 
-    static ClientConfig load(String configName) {
+    public static ClientConfig load() {
+        return load("client.conf");
+    }
+
+    public static ClientConfig load(String configName) {
         try {
             Config config = ConfigFactory.load(configName);
 

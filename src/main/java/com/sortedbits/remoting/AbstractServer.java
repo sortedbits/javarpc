@@ -5,9 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,17 +12,15 @@ import static org.apache.commons.io.IOUtils.closeQuietly;
 
 public abstract class AbstractServer<I, O, C extends ServerController<I, O>> implements Runnable {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     private ServerConfig config;
     private C controller;
-    private ServerSocket listener;
     private StopWatch timer;
     private ExecutorService executor;
 
-    protected AbstractServer(C controller) {
-        this.controller = controller;
-        init(controller);
+    protected AbstractServer(ServerConfig config) {
+        this.config = config;
         this.timer = StopWatch.createStarted();
     }
 
@@ -34,11 +29,8 @@ public abstract class AbstractServer<I, O, C extends ServerController<I, O>> imp
         startup();
 
         while (true) {
-            final Socket socket;
             try {
-                socket = listener.accept();
-                socket.setSoTimeout(config.getSocketTimout());
-                Channel<I, O>  channel = createChannel(socket);
+                Channel<I, O> channel = createChannel(config);
                 executor.submit(() -> process(channel));
             } catch (IOException e) {
                 logger.error("Server error: ", e);
@@ -46,10 +38,9 @@ public abstract class AbstractServer<I, O, C extends ServerController<I, O>> imp
         }
     }
 
-    protected void init(C controller) {
-    }
+    protected abstract C createController(ServerConfig config);
 
-    protected abstract Channel<I, O> createChannel(Socket socket) throws IOException;
+    protected abstract Channel<I,O> createChannel(ServerConfig config) throws IOException;
 
     private void process(Channel<I, O> channel) {
         try {
@@ -69,15 +60,18 @@ public abstract class AbstractServer<I, O, C extends ServerController<I, O>> imp
     private void startup() {
         try {
             logger.info("Startup in progress...");
-            config = ServerConfig.load("server.conf");
+            ServerConfig config = ServerConfig.load("server.conf");
+
             executor = Executors.newFixedThreadPool(config.getThreadPoolSize());
-            int port = config.getListenPort();
-            InetAddress addr = config.getListenAddr();
-            listener = new ServerSocket(port, 0, addr);
+            controller = createController(config);
+
+            startListener(config);
+
             logger.info("Startup completed in " +  timer.getTime() + "ms: ");
-            logger.info("AbstractServer listening at " + addr.getHostAddress() + ":" + port + "...");
         } catch (Exception e) {
-            logger.error("AbstractServer startup error: ", e);
+            logger.error("Server startup error: ", e);
         }
     }
+
+    protected abstract void startListener(ServerConfig config) throws IOException;
 }
