@@ -1,4 +1,4 @@
-package com.sortedbits.javarpc.test.simple;
+package com.sortedbits.javarpc.test.socket;
 
 import java.io.Serializable;
 

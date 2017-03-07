@@ -1,4 +1,4 @@
-package com.sortedbits.javarpc.test.simple;
+package com.sortedbits.javarpc.test.socket;
 
 import com.sortedbits.javarpc.server.ServerController;
 import org.slf4j.Logger;
