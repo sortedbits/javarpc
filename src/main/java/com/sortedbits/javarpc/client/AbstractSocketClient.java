@@ -34,6 +34,7 @@ public abstract class AbstractSocketClient<I, O> extends AbstractClient<I, O> {
         if (!config.getSocketSSL()) {
             socket = new Socket(config.getServerAddr(), config.getPort());
         } else {
+            logger.info("SSL socket enabled");
             SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
             socket = factory.createSocket(config.getServerAddr(), config.getPort());
         }

@@ -1,10 +1,14 @@
 package com.sortedbits.javarpc.client;
 
 import com.sortedbits.javarpc.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public abstract class AbstractClient<I, O> {
+
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     private ClientConfig config;
     private Channel<I, O> channel;

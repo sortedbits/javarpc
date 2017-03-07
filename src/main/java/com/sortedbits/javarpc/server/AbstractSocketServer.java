@@ -36,6 +36,7 @@ public abstract class AbstractSocketServer<I, O, C extends ServerController<I, O
         if (!socketSSL) {
             return new ServerSocket(port, 0, addr);
         } else {
+            logger.info("SSL socket enabled");
             SSLServerSocketFactory factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
             return factory.createServerSocket(port, 0, addr);
         }
