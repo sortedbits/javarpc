@@ -1,3 +1,3 @@
-#remoting
+#javarpc
 
 Simple RPC in java.

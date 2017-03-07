@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sortedbits</groupId>
-    <artifactId>remoting</artifactId>
+    <artifactId>javarpc</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
