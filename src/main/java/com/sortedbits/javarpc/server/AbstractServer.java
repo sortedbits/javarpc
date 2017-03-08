@@ -1,6 +1,6 @@
 package com.sortedbits.javarpc.server;
 
-import com.sortedbits.javarpc.Channel;
+import com.sortedbits.javarpc.channels.GenericChannel;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public abstract class AbstractServer<I, O, C extends ServerController<I, O>> imp
 
         while (true) {
             try {
-                Channel<I, O> channel = createChannel(config);
+                GenericChannel<I, O> channel = createChannel(config);
                 executor.submit(() -> process(channel));
             } catch (IOException e) {
                 logger.error("Server error: ", e);
@@ -41,9 +41,9 @@ public abstract class AbstractServer<I, O, C extends ServerController<I, O>> imp
 
     protected abstract C createController(ServerConfig config);
 
-    protected abstract Channel<I,O> createChannel(ServerConfig config) throws IOException;
+    protected abstract GenericChannel<I,O> createChannel(ServerConfig config) throws IOException;
 
-    private void process(Channel<I, O> channel) {
+    private void process(GenericChannel<I, O> channel) {
         try {
             while (true) {
                 I req = channel.read();
@@ -51,7 +51,7 @@ public abstract class AbstractServer<I, O, C extends ServerController<I, O>> imp
                 channel.write(res);
             }
         } catch (IOException e) {
-            logger.error("Channel communication error: ", e);
+            logger.error("GenericChannel communication error: ", e);
         } finally {
             logger.debug("Closing channel...");
             closeQuietly(channel);

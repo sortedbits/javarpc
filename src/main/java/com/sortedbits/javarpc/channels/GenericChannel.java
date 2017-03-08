@@ -1,9 +1,9 @@
-package com.sortedbits.javarpc;
+package com.sortedbits.javarpc.channels;
 
 import java.io.Closeable;
 import java.io.IOException;
 
-public interface Channel<I, O> extends Closeable {
+public interface GenericChannel<I, O> extends Closeable {
 
     void write(O req) throws IOException;
 

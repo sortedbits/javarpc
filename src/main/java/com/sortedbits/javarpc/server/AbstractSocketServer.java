@@ -1,6 +1,6 @@
 package com.sortedbits.javarpc.server;
 
-import com.sortedbits.javarpc.Channel;
+import com.sortedbits.javarpc.channels.GenericChannel;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.io.IOException;
@@ -15,13 +15,13 @@ public abstract class AbstractSocketServer<I, O, C extends ServerController<I, O
         super(config);
     }
 
-    protected Channel<I, O> createChannel(ServerConfig config) throws IOException {
+    protected GenericChannel<I, O> createChannel(ServerConfig config) throws IOException {
         Socket socket = listener.accept();
         socket.setSoTimeout(config.getSocketTimeout());
         return createSocketChannel(socket);
     }
 
-    protected abstract Channel<I,O> createSocketChannel(Socket socket) throws IOException;
+    protected abstract GenericChannel<I,O> createSocketChannel(Socket socket) throws IOException;
 
     @Override
     protected void startListener(ServerConfig config) throws IOException {

@@ -1,6 +1,6 @@
-package com.sortedbits.javarpc.server;
-import com.sortedbits.javarpc.RPCRequest;
-import com.sortedbits.javarpc.RPCResponse;
+package com.sortedbits.javarpc.rpc;
+import com.sortedbits.javarpc.server.AbstractSocketServer;
+import com.sortedbits.javarpc.server.ServerConfig;
 
 public abstract class AbstractRPCServer extends AbstractSocketServer<RPCRequest, RPCResponse, RPCServerController> {
 

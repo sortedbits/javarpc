@@ -1,6 +1,6 @@
 package com.sortedbits.javarpc.test.socket;
 
-import com.sortedbits.javarpc.Channel;
+import com.sortedbits.javarpc.channels.GenericChannel;
 import com.sortedbits.javarpc.channels.SerializedSocketChannel;
 import com.sortedbits.javarpc.server.AbstractSocketServer;
 import com.sortedbits.javarpc.server.ServerConfig;
@@ -15,7 +15,7 @@ public class SocketServer extends AbstractSocketServer<SimpleRequest, SimpleResp
     }
 
     @Override
-    protected Channel<SimpleRequest, SimpleResponse> createSocketChannel(Socket socket) throws IOException {
+    protected GenericChannel<SimpleRequest, SimpleResponse> createSocketChannel(Socket socket) throws IOException {
         return new SerializedSocketChannel<>(socket);
     }
 

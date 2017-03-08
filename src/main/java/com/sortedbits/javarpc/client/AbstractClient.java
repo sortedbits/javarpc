@@ -1,6 +1,6 @@
 package com.sortedbits.javarpc.client;
 
-import com.sortedbits.javarpc.Channel;
+import com.sortedbits.javarpc.channels.GenericChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +11,7 @@ public abstract class AbstractClient<I, O> {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     private ClientConfig config;
-    private Channel<I, O> channel;
+    private GenericChannel<I, O> channel;
 
     public AbstractClient() {
         this("client.conf");
@@ -23,7 +23,7 @@ public abstract class AbstractClient<I, O> {
 
     public synchronized I submit(O req) throws IOException {
         try {
-            Channel<I, O> channel = getChannel(config);
+            GenericChannel<I, O> channel = getChannel(config);
             channel.write(req);
             return channel.read();
         } catch (IOException e) {
@@ -32,7 +32,7 @@ public abstract class AbstractClient<I, O> {
         }
     }
 
-    protected abstract Channel<I, O> getChannel(ClientConfig config) throws IOException;
+    protected abstract GenericChannel<I, O> getChannel(ClientConfig config) throws IOException;
 
     protected abstract  void closeChannel();
 

@@ -1,4 +1,4 @@
-package com.sortedbits.javarpc;
+package com.sortedbits.javarpc.rpc;
 
 import java.io.Serializable;
 

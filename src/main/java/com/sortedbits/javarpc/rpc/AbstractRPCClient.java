@@ -1,7 +1,8 @@
-package com.sortedbits.javarpc.client;
+package com.sortedbits.javarpc.rpc;
 
-import com.sortedbits.javarpc.RPCRequest;
-import com.sortedbits.javarpc.RPCResponse;
+import com.sortedbits.javarpc.client.AbstractSocketClient;
+import com.sortedbits.javarpc.rpc.RPCRequest;
+import com.sortedbits.javarpc.rpc.RPCResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

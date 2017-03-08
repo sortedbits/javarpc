@@ -1,13 +1,11 @@
 package com.sortedbits.javarpc.channels;
 
-import com.sortedbits.javarpc.Channel;
-
 import java.io.*;
 import java.net.Socket;
 
 import static org.apache.commons.io.IOUtils.closeQuietly;
 
-public abstract class GenericSocketChannel<I, O> implements Channel<I, O> {
+public abstract class GenericSocketChannel<I, O> implements GenericChannel<I, O> {
 
     private final Socket socket;
     private final GenericChannelReader<I> reader;
